@@ -1,0 +1,24 @@
+---
+# tasks file for buildinventory
+- block:
+  - name: run av script
+    script: av.py
+    register: av
+    become: yes
+    changed_when: False
+
+  - set_fact: av="{{ av.stdout_lines }}"
+
+  - name: workaround for non existence of home directory
+    set_fact: av="{{ av[1:] }}"
+    when: av[0].find("{{ hostvars[inventory_hostname]['ansible_user'] }}") != -1
+
+  - set_fact: av="{{ av[0]|from_json }}"
+
+  - name: build Inventory
+    add_host: name={{ item.key }} groups=weblogic,{{ item.value.cluster }}
+      ansible_user="{{ hostvars[inventory_hostname]['ansible_user'] }}"
+      ansible_become_method="su"
+      ansible_become_exe="dzdo"
+      ansible_become_flags="su -"
+    with_dict: "{{ av }}"
