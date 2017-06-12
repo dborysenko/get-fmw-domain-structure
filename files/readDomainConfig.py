@@ -38,7 +38,6 @@ def get_domains():
         exit(1)
 
 domains = get_domains()
-# domains = [['Testdomain', '/Users/dborysenko/Downloads', ], ]
 result = {}
 dom = {}
 clusters = {}
@@ -59,15 +58,7 @@ for domain in domains:
     servers = {}
     dom[domain[0]] = {'children': [], 'vars': {}}
     for cluster in root.findall("{http://xmlns.oracle.com/weblogic/domain}cluster"):
-        # clusters.append(cluster.find("{http://xmlns.oracle.com/weblogic/domain}name").text)
         clusters[cluster.find("{http://xmlns.oracle.com/weblogic/domain}name").text] = {'hosts': []}
-
-    for machine in root.findall("{http://xmlns.oracle.com/weblogic/domain}machine"):
-        nodemanager = machine.find("{http://xmlns.oracle.com/weblogic/domain}node-manager")
-        name = machine.find("{http://xmlns.oracle.com/weblogic/domain}name").text
-        nms.update({name:
-                    nodemanager.find("{http://xmlns.oracle.com/weblogic/domain}listen-address").text})
-
     for server in root.findall("{http://xmlns.oracle.com/weblogic/domain}server"):
         machine = server.find("{http://xmlns.oracle.com/weblogic/domain}machine").text
         name = server.find("{http://xmlns.oracle.com/weblogic/domain}name").text
@@ -77,22 +68,6 @@ for domain in domains:
             cluster = cluster.text
         if name == "AdminServer":
             cluster = "AdminServer"
-            # continue
         managed_addr = server.find("{http://xmlns.oracle.com/weblogic/domain}listen-address").text
-        if machine:
-            servers.update({name: {'nm_addr': nms[machine], 'managed_addr': managed_addr, 'port': port}})
-        else:
-            servers.update({name: {'nm_addr': "None", 'managed_addr': managed_addr, 'port': port}})
-        res.append(nms[machine])
-        resd[nms[machine]] = dict(cluster=cluster)
-        # clusters[cluster]['hosts'].append(nms[machine])
-    # dom[domain[0]]['children'] = clusters.keys()
-    # dom[domain[0]]['vars'] = {'ansible_user': 'oracle', 'ansible_ssh_private_key_file': 'ansible_ssh_private_key_file=/Users/dborysenko/.ssh/id_rsa'}
+        resd[managed_addr] = dict(cluster=cluster)
 print json.dumps(resd)
-# for i in set(res):
-#     print i
-
-# print clusters
-# print dom
-# res = json.dumps(dict(clusters.items() + dom.items()))
-# print json.dumps(dict(clusters['web_cluster_1'].items() + {'vars': {'ansible_user': 'oracle'}}.items()))
