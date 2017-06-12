@@ -1,31 +1,58 @@
 Get FMW Domain Structure
 =========
 
-Role reads domain configuration in order to create in memory inventory of each host which is part of the domain. So you can apply any subsequent roles against each host within domain. 
+
+Role reads domain configuration in order to create in-memory inventory of each host which is part of the domain. So you can apply any subsequent roles against each host within domain. 
 
 Requirements
 ------------
 
-There is an assumption that nodemanager's config "nodemanager.domains" is located in /opt/oracle/admin/nodemanager/common/nodemanager.domains If it is not the case in your installation, feel free to edit readDomainConfig.py 
+Tested with weblogic 10.3.6 (FMW 11.1.1.6) 
 
 Role Variables
 --------------
 
-TODO: redefine nodemanager's config as variable.
-
-Dependencies
-------------
-
-No edpendencies.
+    vars:
+        NODEMANAGER_DOMAINS: /opt/oracle/admin/nodemanager/common/nodemanager.domains #nodemanager.domains config location
+        
 
 Example Playbook
 ----------------
 
-TOD: provide an example of usage
 
-    - hosts: servers
+
+site.yml:
+    
+    - hosts: adminserver
+      serial: 1 #this one is important to be able to gather info from more than 1 domain at one run
       roles:
-         - { role: username.rolename, x: 42 }
+        - get-fmw-domain-structure
+
+
+hosts:
+    
+    #adminserver hostname
+    [adminserver]    
+    adminserver.example.com   
+    
+    
+    [weblogic]
+    
+    [all]
+    
+    [all:children]
+    adminserver
+    singlehosts
+    weblogic
+    
+    [all:vars]
+    ansible_user=dborysenko
+    #in case you want to redefine privileges escalation method
+    #ansible_become_method=su
+    #ansible_become_exe=sudo
+    #ansible_become_flags="su -"  
+    
+    
 
 License
 -------

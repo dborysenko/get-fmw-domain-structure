@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import sys
 import ConfigParser
 import StringIO
 import json
@@ -9,7 +10,7 @@ except ImportError:
     import cElementTree as ET
 
 
-NODEMANAGER_DOMAINS = "/opt/oracle/admin/nodemanager/common/nodemanager.domains"
+NODEMANAGER_DOMAINS = sys.argv[1]
 
 if not hasattr(os, 'SEEK_SET'):
     os.SEEK_SET = 0
