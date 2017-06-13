@@ -31,10 +31,11 @@ site.yml:
 
 hosts:
     
-    #adminserver hostname
-    [adminserver]    
-    adminserver.example.com   
     
+    [adminserver]
+    adminsrv.example.com
+    
+    [singlehosts]
     
     [weblogic]
     
@@ -47,10 +48,10 @@ hosts:
     
     [all:vars]
     ansible_user=dborysenko
-    #in case you want to redefine privileges escalation method
-    #ansible_become_method=su
-    #ansible_become_exe=sudo
-    #ansible_become_flags="su -"  
+    ansible_become_method=su
+    ansible_become_exe=dzdo
+    ansible_become_flags="su -"    
+     
     
     
 

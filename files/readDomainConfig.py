@@ -35,7 +35,7 @@ def get_domains():
             'filename': init_config,
             'error': e.strerror,
         }
-        config.close()
+        # config.close()
         exit(1)
 
 domains = get_domains()
@@ -71,4 +71,5 @@ for domain in domains:
             cluster = "AdminServer"
         managed_addr = server.find("{http://xmlns.oracle.com/weblogic/domain}listen-address").text
         resd[managed_addr] = dict(cluster=cluster)
+
 print json.dumps(resd)

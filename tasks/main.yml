@@ -19,3 +19,6 @@
     add_host: name={{ item.key }} groups=weblogic,{{ item.value.cluster }}
       ansible_user="{{ hostvars[inventory_hostname]['ansible_user'] }}"
     with_dict: "{{ domainConfig }}"
+
+  become: yes
+  become_user: oracle
