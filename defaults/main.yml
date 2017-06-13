@@ -1,3 +1,4 @@
 ---
 # defaults file for buildinventory
 NODEMANAGER_DOMAINS: "/opt/oracle/admin/nodemanager/common/nodemanager.domains"
+WEBLOGIC_USER: "oracle"

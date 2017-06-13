@@ -21,4 +21,4 @@
     with_dict: "{{ domainConfig }}"
 
   become: yes
-  become_user: oracle
+  become_user: "{{ WEBLOGIC_USER }}"

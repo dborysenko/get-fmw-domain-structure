@@ -12,8 +12,10 @@ Tested with weblogic 10.3.6 (FMW 11.1.1.6)
 Role Variables
 --------------
 
-    vars:
-        NODEMANAGER_DOMAINS: /opt/oracle/admin/nodemanager/common/nodemanager.domains #nodemanager.domains config location
+    
+    NODEMANAGER_DOMAINS: "/opt/oracle/admin/nodemanager/common/nodemanager.domains"
+    WEBLOGIC_USER: "oracle"
+    
         
 
 Example Playbook
