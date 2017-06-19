@@ -35,7 +35,7 @@ def get_domains():
             'filename': init_config,
             'error': e.strerror,
         }
-        # config.close()
+        config.close()
         exit(1)
 
 domains = get_domains()
@@ -58,6 +58,7 @@ for domain in domains:
     nms = {}
     servers = {}
     dom[domain[0]] = {'children': [], 'vars': {}}
+    adminServerName = root.find("{http://xmlns.oracle.com/weblogic/domain}admin-server-name").text
     for cluster in root.findall("{http://xmlns.oracle.com/weblogic/domain}cluster"):
         clusters[cluster.find("{http://xmlns.oracle.com/weblogic/domain}name").text] = {'hosts': []}
     for server in root.findall("{http://xmlns.oracle.com/weblogic/domain}server"):
@@ -67,7 +68,7 @@ for domain in domains:
         cluster = server.find("{http://xmlns.oracle.com/weblogic/domain}cluster")
         if cluster is not None:
             cluster = cluster.text
-        if name == "AdminServer":
+        if name == adminServerName:
             cluster = "AdminServer"
         managed_addr = server.find("{http://xmlns.oracle.com/weblogic/domain}listen-address").text
         resd[managed_addr] = dict(cluster=cluster)
