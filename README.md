@@ -28,7 +28,7 @@ site.yml:
     - hosts: adminserver
       serial: 1 #this one is important to be able to gather info from more than 1 domain at one run
       roles:
-        - get-fmw-domain-structure
+        - dborysenko.get-fmw-domain-structure
 
 
 hosts:

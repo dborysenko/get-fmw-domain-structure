@@ -43,7 +43,7 @@ result = {}
 dom = {}
 clusters = {}
 res = []
-resd = {}
+domainStructure = {}
 for domain in domains:
     domain_config = os.path.join(domain[1], "config", "config.xml")
     try:
@@ -71,6 +71,6 @@ for domain in domains:
         if name == adminServerName:
             cluster = "AdminServer"
         managed_addr = server.find("{http://xmlns.oracle.com/weblogic/domain}listen-address").text
-        resd[managed_addr] = dict(cluster=cluster)
+        domainStructure[managed_addr] = dict(cluster=cluster)
 
-print json.dumps(resd)
+print json.dumps(domainStructure)
